@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>商品列表</title>
+
+    <link href="http://resali.huobanplus.com/cdn/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://resali.huobanplus.com/cdn/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Morris -->
+    <link href="http://resali.huobanplus.com/cdn/hotui/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
+    <link href="http://resali.huobanplus.com/cdn/hotui/css/animate.min.css" rel="stylesheet">
+    <link href="http://resali.huobanplus.com/cdn/hotui/css/style.min.css" rel="stylesheet">
+
+    <!--checkbox-->
+    <link href="http://resali.huobanplus.com/cdn/hotui/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+
+    <!--datetimepick-->
+    <link href="http://resali.huobanplus.com/cdn/hotui/css/plugins/datetimepick/daterangepicker.css" rel="stylesheet"/>
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight tooltip-demo">
+    <!--search-->
+    <form role="form" class="search-panel">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content p-md">
+                        <div class="form-inline">
+                            <div class="form-group m-r-sm">
+                                <label class="control-label" for="goodName">商品名称：</label>
+                                <input type="text" class="form-control input-sm mb10" id="goodName" name="goodName" placeholder="商品名称"/>
+                            </div>
+                            <div class="form-group m-r-sm">
+                                <label class="control-label" for="goodBn">商品编号：</label>
+                                <input type="text" class="form-control input-sm mb10" id="goodBn" name="goodBn" placeholder="商品编号"/>
+                            </div>
+                            <div class="form-group m-r-sm">
+                                <label class="control-label" for="goodCat">商品分类：</label>
+                                <select class="form-control input-sm" name="stdType" id="goodCat">
+                                    <option>--请选择--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <p style="height: 8px;"></p>
+
+                        <div class="form-inline">
+                            <div class="form-group m-r-sm">
+                                <label class="control-label" for="stdType">标准类目：</label>
+                                <select class="form-control input-sm" name="stdType" id="stdType">
+                                    <option>--请选择--</option>
+                                </select>
+                                <select class="form-control input-sm m-l-xs" name="stdType">
+                                    <option>--请选择--</option>
+                                </select>
+                                <select class="form-control input-sm m-l-xs" name="stdType">
+                                    <option>--请选择--</option>
+                                </select>
+                            </div>
+                            <div class="form-group m-r-sm">
+                                <label class="control-label" for="goodType">自定义类目：</label>
+                                <select class="form-control input-sm" name="stdType" id="goodType">
+                                    <option>--请选择--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <p style="height: 8px;"></p>
+
+                        <div class="form-inline">
+                            <div class="form-group m-r-sm">
+                                <label class="control-label" for="goodBrand">商品品牌：</label>
+                                <input type="text" class="form-control input-sm mb10" id="goodBrand" name="goodBrand" placeholder="商品品牌"/>
+                            </div>
+                            <div class="form-group m-r-sm">
+                                <label class="control-label" for="supplier">供应商：</label>
+                                <select class="form-control input-sm" name="supplier" id="supplier">
+                                    <option>--请选择--</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <p style="height: 8px;"></p>
+
+                        <div class="form-inline" style="max-width: 926px; text-align: right;">
+                            <button type="button" onclick="orderListHandler.search(1)" class="btn btn-success">筛选</button>
+                            <button type="button" onclick="orderListHandler.searchAll()" class="btn btn-success">显示全部</button>
+                            <button type="button" class="btn btn-white" id="btnBatchExplor">批量导出</button>
+                            <button type="button" id="btnBatchDeliver" class="btn btn-white">批量发货</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--search-->
+
+    <!--list-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="tabs-container">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab-1">全部</a></li>
+                        <li class=""><a href="#tab-2">待付款</a></li>
+                        <li class=""><a href="#tab-2">待处理</a></li>
+                        <li class=""><a href="#tab-2">已发货</a></li>
+                        <li class=""><a href="#tab-2">已归档</a></li>
+                        <li class=""><a href="#tab-2">已退款</a></li>
+                        <li class=""><a href="#tab-2">已退货</a></li>
+                        <li class=""><a href="#tab-2">已关闭</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active">
+                            <div class="panel-body">
+                                <table class="table table-bordered table-hover table-center">
+                                    <thead>
+                                    <tr>
+                                        <th colspan="8" style="color: #636e7b; padding-bottom: 0px; text-align: left;">
+                                            <label>
+                                                <img src="/images/remark_icons/b1.gif" width="20" height="20"/></label>
+                                            订单号：2016081638541286（活动）
+                                            &nbsp;
+                                            联合单号：2016081638541286
+                                            &nbsp;
+                                            支付类型：支付宝
+
+                                            <p style="float: right;"><span class="glyphicon glyphicon-time"></span>：8/16/2016 4:13:56 PM<span style="color: #aaa; padding-left: 5px;">(10天6小时前)</span></p>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>商品信息</td>
+                                        <td>金额</td>
+                                        <td>收货人</td>
+                                        <td>支付状态</td>
+                                        <td>发货状态</td>
+                                        <td>买家用户名</td>
+                                        <td>备注</td>
+                                        <td>操作</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p style="width: 100%; height: 50px;">
+                                                <!--商品-->
+                                                <img style="width: 50px; height: 50px; float: left; margin-left: 5px;" src=""/>
+                                                <span style="overflow: hidden; text-align: left; margin-left: 10px; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; width: 54%; float: left;">商品名称</span>
+                                                <span style="float: right; margin-top: 30px">X1</span>
+                                            </p>
+                                        </td>
+                                        <td>100.00</td>
+                                        <td>allan</td>
+                                        <td>已支付</td>
+                                        <td>已发货</td>
+                                        <td>18777876675</td>
+                                        <td></td>
+                                        <td>
+                                            <span onclick="javascript:hot.newTab('order_detail.html','订单详情')" class="cursor-point"><i class="fa fa-pencil tooltips" data-placement="top" data-toggle="tooltip" data-original-title="操作订单"></i></span>
+                                            &nbsp;
+                                            <span class="cursor-point" onclick="orderListHandler.remark()"><i class="fa fa-edit tooltips" data-placement="top" data-toggle="tooltip" data-original-title="备注"></i></span>
+                                            &nbsp;
+                                            <span class="cursor-point"><i class="fa fa-truck tooltips" data-placement="top" data-toggle="tooltip" data-original-title="查看物流"></i></span>
+                                            &nbsp;<br/>
+                                            <br/>
+                                            <span style="margin-left: -8px;"><i class="fa fa-print tooltips" data-placement="top" data-toggle="tooltip" data-original-title="订单打印"></i></span>
+                                            &nbsp;
+                                            <button style="padding: 0px 5px;" title="" data-placement="top" data-toggle="tooltip" class="btn btn-default tooltips" type="button" data-original-title="购买清单打印">购</button>
+                                            &nbsp;
+                                            <button style="padding: 0px 5px;" title="" data-placement="top" data-toggle="tooltip" class="btn btn-default tooltips" type="button" data-original-title="配货清单打印">配</button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <table class="table table-bordered table-hover table-center">
+                                    <thead>
+                                    <tr>
+                                        <th colspan="8" style="color: #636e7b; font-size: 14px; padding-bottom: 0px; text-align: left;">
+                                            <label>
+                                                <img src="/images/remark_icons/b1.gif" width="20" height="20"/></label>
+                                            订单号：2016081638541286（活动）
+                                            联合单号：2016081638541286
+                                            支付类型：支付宝
+
+                                            <p style="float: right;"><span class="glyphicon glyphicon-time"></span>：8/16/2016 4:13:56 PM<span style="color: #aaa; padding-left: 5px;">(10天6小时前)</span></p>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>商品信息</td>
+                                        <td>金额</td>
+                                        <td>收货人</td>
+                                        <td>支付状态</td>
+                                        <td>发货状态</td>
+                                        <td>买家用户名</td>
+                                        <td>备注</td>
+                                        <td>操作</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p style="width: 100%; height: 50px;">
+                                                <!--商品-->
+                                                <img style="width: 50px; height: 50px; float: left; margin-left: 5px;" src=""/>
+                                                <span style="overflow: hidden; text-align: left; margin-left: 10px; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; width: 54%; float: left;">商品名称</span>
+                                                <span style="float: right; margin-top: 30px">X1</span>
+                                            </p>
+                                        </td>
+                                        <td>100.00</td>
+                                        <td>allan</td>
+                                        <td>已支付</td>
+                                        <td>已发货</td>
+                                        <td>18777876675</td>
+                                        <td></td>
+                                        <td>
+                                            <span onclick="javascript:hot.newTab('order_detail.html','订单详情')" class="cursor-point"><i class="fa fa-pencil tooltips" data-placement="top" data-toggle="tooltip" data-original-title="操作订单"></i></span>
+                                            &nbsp;
+                                            <span class="cursor-point" onclick="orderListHandler.remark()"><i class="fa fa-edit tooltips" data-placement="top" data-toggle="tooltip" data-original-title="备注"></i></span>
+                                            &nbsp;
+                                            <span class="cursor-point"><i class="fa fa-truck tooltips" data-placement="top" data-toggle="tooltip" data-original-title="查看物流"></i></span>
+                                            &nbsp;<br/>
+                                            <br/>
+                                            <span style="margin-left: -8px;"><i class="fa fa-print tooltips" data-placement="top" data-toggle="tooltip" data-original-title="订单打印"></i></span>
+                                            &nbsp;
+                                            <button style="padding: 0px 5px;" title="" data-placement="top" data-toggle="tooltip" class="btn btn-default tooltips" type="button" data-original-title="购买清单打印">购</button>
+                                            &nbsp;
+                                            <button style="padding: 0px 5px;" title="" data-placement="top" data-toggle="tooltip" class="btn btn-default tooltips" type="button" data-original-title="配货清单打印">配</button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <p style="float: left; margin: 20px 0;">共<%=recordCount %>条记录，当前第<%=pageIndex %>/<%=pageCount %>，每页20条记录</p>
+                                <ul style="float: right;" class="pagination pagination-split">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--基础框架js-->
+<script src="http://resali.huobanplus.com/cdn/jquery/2.2.4/jquery.min.js"></script>
+<script src="http://resali.huobanplus.com/cdn/bootstrap/3.3.5/bootstrap.min.js"></script>
+<script src="http://resali.huobanplus.com/cdn/hotui/js/content.min.js"></script>
+
+<!--日期选择-->
+<script src="js/plugins/datetimepick/js/moment.js"></script>
+<script src="js/plugins/datetimepick/js/daterangepicker.js"></script>
+<!--file-->
+<script src="js/plugins/prettyfile/bootstrap-prettyfile.js"></script>
+<!--validate-->
+<script src="http://resali.huobanplus.com/cdn/jquery-validation/1.15.0/jquery.validate.min.js"></script>
+<script src="http://resali.huobanplus.com/cdn/jquery-validation/1.15.0/additional-methods.min.js"></script>
+<script src="http://resali.huobanplus.com/cdn/jquery-validation/1.15.0/localization/messages_zh.min.js"></script>
+<script src="js/plugins/hot/bootstrap.hot.extra-validate.js"></script>
+
+<script src="http://resali.huobanplus.com/cdn/hotui/js/plugins/SearchableSelect/jquery.searchableSelect.js"></script>
+
+<script src="http://resali.huobanplus.com/cdn/hotui/js/plugins/hot/bootstrap.hot.extra-utils-1.0.1.js"></script>
+<script src="js/plugins/hot/bootstrap.hot.extra-init.js"></script>
+
+<script type="text/javascript">
+
+</script>
+</body>
+
+</html>
