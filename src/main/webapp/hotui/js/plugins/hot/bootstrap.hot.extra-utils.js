@@ -97,6 +97,9 @@ var hot = $.extend({}, hot, {
         layer.open(op);
     },
     newTab: function (url, name) {
+		if (name.length > 25) {
+            name = name.substring(0, 25) + "...";
+        }
         parent.newTab(url, name);
     },
     tip: {
