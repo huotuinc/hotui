@@ -19,4 +19,4 @@ $(function () {
         n = t.charCode || t.keyCode;
         n == 110 || n == 190 ? ($(this).val().indexOf(".") >= 0 || !$(this).val().length) && r(this, t) : n != 8 && n != 9 && n != 46 && (n < 37 || n > 40) && (n < 48 || n > 57) && (n < 96 || n > 105) && r(this, t)
     });
-})
+});

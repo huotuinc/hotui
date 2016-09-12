@@ -58,6 +58,19 @@ $.fn.extend({
         index.init(title, content, yes, options);
         $this.empty();
         return index;
+    },
+    datePick: function (options) {
+        var op = {
+            format: "yyyy-mm-dd",
+            autoclose: true,
+            todayHighlight: true,
+            todayBtn: 'linked',
+            language: 'zh-CN'
+        };
+        if (options != 'undefined') {
+            op = $.extend({}, op, options);
+        }
+        $(this).datepicker(op);
     }
 });
 
