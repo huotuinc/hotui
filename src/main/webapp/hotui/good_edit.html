@@ -23,6 +23,7 @@
     <!--checkbox-->
     <link href="http://resali.huobanplus.com/cdn/hotui/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
 
+    <link href="js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet"/>
 
     <style>
 
@@ -42,6 +43,14 @@
             border: 1px solid #FFD400;
             background-color: #FFF7E6;
         }
+
+        .bootstrap-tagsinput {
+            width: 80%;
+        }
+
+        .badge-info, .label-info {
+            background-color: #5bc0de;
+        }
     </style>
 </head>
 
@@ -51,7 +60,7 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-content p-sm no-borders">
-                    <img style="float: left;margin-top: 5px;" src="http://manager.51flashmall.com/images/step_gtype2.jpg" />
+                    <img style="float: left;margin-top: 5px;" src="http://manager.51flashmall.com/images/step_gtype2.jpg"/>
 
                     <div style="text-align: right;">
                         <button type="button" class="btn btn-white m-b-none">重新选择类目</button>
@@ -141,6 +150,18 @@
                                                 <input type="radio" id="raSaleTag_1" name="raSaleTag" value="1"/>
                                                 <label for="raSaleTag_1">自定义</label>
                                             </div>
+                                            <br/><br/>
+
+                                            <input type="text" data-role="tagsinput" value="lksjei" placeholder="选择或填写">
+                                            <br/>
+
+                                            <p class="form-control-static">
+                                                <span class="form-control cursor-point">品牌直供</span>
+                                                <span class="form-control cursor-point">七天无理由退货</span>
+                                                <span class="form-control cursor-point">包邮</span>
+                                                <span class="form-control cursor-point">顺丰包邮</span>
+                                                <span style="color:#ccc">从上面选或自己填写,按回车确认</span>
+                                            </p>
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed "></div>
@@ -639,6 +660,9 @@
 <script src="js/plugins/datapicker/bootstrap-datepicker.zh-CN.min.js"></script>
 
 <script src="http://resali.huobanplus.com/cdn/hotui/js/plugins/SearchableSelect/jquery.searchableSelect.js"></script>
+
+<!--tagsinput-->
+<script src="js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
 
 <script src="js/plugins/hot/bootstrap.hot.extra-utils.js"></script>
 <script src="js/plugins/hot/bootstrap.hot.extra-init.js"></script>
