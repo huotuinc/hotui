@@ -167,7 +167,19 @@
                 var item = $('<div class="searchable-select-item" data-value="' + $(this).attr('value') + '">' + $(this).text() + '</div>');
 
                 if (this.selected) {
-                    _this.selectItem(item);
+                    //_this.selectItem(item);
+                    if (_this.hasCurrentSelectedItem())
+                        _this.currentSelectedItem.removeClass('selected');
+
+                    _this.currentSelectedItem = item;
+                    item.addClass('selected');
+
+                    _this.hoverItem(item);
+
+                    _this.holder.text(item.text());
+                    var value = item.data('value');
+                    _this.holder.data('value', value);
+                    _this.element.val(value);
                     _this.hoverItem(item);
                 }
 
