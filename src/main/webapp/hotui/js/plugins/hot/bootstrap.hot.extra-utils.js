@@ -86,7 +86,7 @@ var hot = $.extend({}, hot, {
     iframeModal: function (url, width, height, title, option) {
         var op = {
             type: 2,
-            fix: false, //不固定
+            fix: true,
             area: [width, height],
             content: url,
             title: title
@@ -96,8 +96,33 @@ var hot = $.extend({}, hot, {
         }
         layer.open(op);
     },
+    iframeModalWithButton: function (url, width, height, title, yes, option) {
+        var op = {
+            type: 2,
+            title: title,
+            fix: true,
+            area: [width, height],
+            content: url,
+            btn: ['确定', '关闭'],
+            yes: yes,
+            btn2: function (index, layero) {
+                layer.close(index);
+            }
+        };
+        if (option) {
+            op = $.extend({}, op, option);
+        }
+        layer.open(op);
+    },
+    selectCallery: function (customerId, _mainDomain, end) {
+        var calleryUrl = "/3rdParty/Widget/Picture/gallery.html?customerId=" + customerId + "&isMult=false&height=-1&domain=" + _mainDomain + "&t=1.2";
+
+        hot.iframeModal(calleryUrl, "920px", "640px;", "图片库", {
+            end: end
+        });
+    },
     newTab: function (url, name) {
-		if (name.length > 25) {
+        if (name.length > 25) {
             name = name.substring(0, 25) + "...";
         }
         parent.newTab(url, name);
@@ -202,7 +227,7 @@ var hot = $.extend({}, hot, {
 
                 //输出中间八个按钮
                 for (var i = this.currentBtnPage; i < this.btnCount + this.currentBtnPage; i++) {
-                    this.obj.append('<li ' + (this.pageNo == i ? 'class="active"' : '') + '><a href="javascript:goTo(' + i + ',' + callback + ')">' + i + '</a></li>');
+                    this.obj.append('<li ' + (this.pageNo == i ? 'class="active"' : '') + '><a href="'+(this.pageNo==i?'#':'javascript:goTo('+i+','+callback+')')+'">' + i + '</a></li>');
                 }
 
                 //输出下一页和末页
@@ -214,9 +239,11 @@ var hot = $.extend({}, hot, {
         };
     },
     ajax: function (url, data, success, error, type, loadingDelay, options) {
-        var loadingIndex = layer.load();
         if (loadingDelay == "undefined") {
             loadingDelay = 0;
+        }
+        if (loadingDelay > 0) {
+            layer.load();
         }
         setTimeout(function () {
             var op = {
@@ -225,7 +252,7 @@ var hot = $.extend({}, hot, {
                 data: data,
                 dataType: 'json',
                 success: function (data) {
-                    layer.close(loadingIndex);
+                    layer.closeAll('loading');
                     if (data == null || data == undefined) {
                         if (typeof error == 'function')
                             error();
@@ -235,7 +262,7 @@ var hot = $.extend({}, hot, {
                     }
                 },
                 error: function () {
-                    layer.close(loadingIndex);
+                    layer.closeAll('loading');
                 }
             };
             if (options) {
@@ -243,6 +270,32 @@ var hot = $.extend({}, hot, {
             }
             $.ajax(op);
         }, loadingDelay);
+    },
+    utils: {
+        formatString: function () { if (arguments.length == 0) return ''; if (arguments.length == 1) return arguments[0]; var args = hot.utils.cloneArray(arguments); args.splice(0, 1); return arguments[0].replace(/{(\d+)?}/g, function ($0, $1) { return args[parseInt($1)]; }); },
+        cloneArray: function (arr) { var cloned = []; for (var i = 0, j = arr.length; i < j; i++) { cloned[i] = arr[i]; } return cloned; }
+    },
+    //图片上传
+    uploadImg: function (btnFile, uploadPath, callback, data) {
+        var uploadUrl = '/UploadFileEidt.aspx?uploadtype=1&userid=' + uploadPath + '';
+        $.ajaxFileUpload({
+            url: uploadUrl,
+            secureuri: false,//安全协议
+            fileElementId: btnFile,//id
+            dataType: 'json',
+            type: "post",
+            data: data,
+            error: function (data, status, e) {
+            },
+            success: function (json) {
+                if (json.success) {
+                    hot.tip.success("上传成功");
+                    callback(json.fileUrl);
+                } else {
+                    hot.tip.error("上传失败");
+                }
+            }
+        });
     }
 });
 
