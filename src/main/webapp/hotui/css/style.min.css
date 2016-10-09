@@ -1777,7 +1777,39 @@ table.dataTable thead .sorting:after {
     padding: 20px;
     position: relative;
 }
-
+.tabs-container .good-edit-success::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-top: 60px solid #1ab394;
+    border-left: 100px solid transparent;
+}
+.tabs-container .good-edit-failure::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-top: 60px solid #ed5565;
+    border-left: 100px solid transparent;
+}
+.tabs-container .good-edit-status {
+    position: absolute;
+    top: 10px;
+    right: 6px;;
+    text-align: right;
+}
+.tabs-container .good-edit-status span {
+    display: none;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+}
+.tabs-container .good-edit-success .status-success, .tabs-container .good-edit-failure .status-failure {
+    display: block;
+}
 .tabs-container .nav-tabs > li.active > a, .tabs-container .nav-tabs > li.active > a:focus, .tabs-container .nav-tabs > li.active > a:hover {
     background-color: #fff;
 }
