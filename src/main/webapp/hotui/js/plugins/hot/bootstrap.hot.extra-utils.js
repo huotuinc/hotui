@@ -32,7 +32,7 @@ var modal = function () {
         };
     this.show = function (initCallback) {
         var index = layer.open(this.layerOption);
-        if (initCallback != 'undefined' && typeof initCallback == 'function') {
+        if (typeof initCallback != 'undefined' && typeof initCallback == 'function') {
             initCallback();
         }
         this.layerIndex = index;
@@ -41,7 +41,7 @@ var modal = function () {
         if (this.layerIndex != null) {
             layer.close(this.layerIndex);
         }
-        if (hideCallback != 'undefined' && typeof hideCallback == 'function') {
+        if (typeof hideCallback != 'undefined' && typeof hideCallback == 'function') {
             hideCallback();
         }
     }
@@ -67,7 +67,7 @@ $.fn.extend({
             todayBtn: 'linked',
             language: 'zh-CN'
         };
-        if (options != 'undefined') {
+        if (typeof options != 'undefined') {
             op = $.extend({}, op, options);
         }
         $(this).datepicker(op);
@@ -115,7 +115,7 @@ var hot = $.extend({}, hot, {
         layer.open(op);
     },
     selectCallery: function (customerId, _mainDomain, end) {
-        var calleryUrl = "/3rdParty/Widget/Picture/gallery.html?customerId=" + customerId + "&isMult=false&height=-1&domain=" + _mainDomain + "&t=1.2";
+        var calleryUrl = "/3rdParty/Widget/Picture/gallery.html?customerId=" + customerId + "&isMult=true&height=-1&domain=" + _mainDomain + "&t=1.2";
 
         hot.iframeModal(calleryUrl, "920px", "640px;", "图片库", {
             end: end
@@ -129,22 +129,23 @@ var hot = $.extend({}, hot, {
     },
     tip: {
         success: function (content, callback, time) {
-            var $msg = $('<div class="hottip-wrap"><div class="layui-layer layui-layer-dialog layui-layer-border layui-layer-msg layui-layer-hui layer-anim hottip-content" style="z-index: 99891018;top: 30%;position: relative;background-color: rgba(28, 175, 154, 0.8);"><div id="" class="layui-layer-content">' + content + '</div></div></div>');
             layer.closeAll("loading");
-            $("body").append($msg);
-
-            if (time == 'undefined') {
+            if (typeof time == 'undefined') {
                 time = 1500;
             }
+
+            var $msg = $('<div class="hottip-wrap"><div class="layui-layer layui-layer-dialog layui-layer-border layui-layer-msg layui-layer-hui layer-anim hottip-content" style="z-index: 99891018;top: 30%;position: relative;background-color: rgba(28, 175, 154, 0.8);"><div id="" class="layui-layer-content">' + content + '</div></div></div>');
+
+            $("body").append($msg);
 
             setTimeout(function () {
                 $msg.remove();
                 if (typeof callback == 'function')
                     callback();
-            }, 1500);
+            }, time);
         },
         error: function (content, callback, time) {
-            if (time == 'undefined') {
+            if (typeof time == 'undefined') {
                 time = 3000;
             }
 
@@ -155,10 +156,10 @@ var hot = $.extend({}, hot, {
                 $msg.remove();
                 if (typeof callback == 'function')
                     callback();
-            }, 3000);
+            }, time);
         },
         msg: function (content, callback, time) {
-            if (time == 'undefined') {
+            if (typeof time == 'undefined') {
                 time = 3000;
             }
 
@@ -169,7 +170,7 @@ var hot = $.extend({}, hot, {
                 $msg.remove();
                 if (typeof callback == 'function')
                     callback();
-            }, 3000);
+            }, time);
         }
     },
     loading: {
@@ -227,8 +228,11 @@ var hot = $.extend({}, hot, {
 
                 //输出中间八个按钮
                 for (var i = this.currentBtnPage; i < this.btnCount + this.currentBtnPage; i++) {
-                    this.obj.append('<li ' + (this.pageNo == i ? 'class="active"' : '') + '><a href="'+(this.pageNo==i?'#':'javascript:goTo('+i+','+callback+')')+'">' + i + '</a></li>');
+                    this.obj.append('<li ' + (this.pageNo == i ? 'class="active"' : '') + '><a href="' + (this.pageNo == i ? '#' : 'javascript:goTo(' + i + ',' + callback + ')') + '">' + i + '</a></li>');
                 }
+
+                this.obj.append('<li style="padding-left:5px;">第<input class="gopage" style="text-align:center;width:30px;height: 26px;margin: 0px 3px;border: 1px #dddddd solid;" type="text" value="' + this.pageNo + '">页</li>');
+                this.obj.append('<li><a href="javascript:goToByEnter(' + callback + ');" style=" float: none; margin-left: 5px;padding: 4px 5px;">跳转</a></li>');
 
                 //输出下一页和末页
                 if (this.pageNo != totalPages) {
@@ -238,13 +242,14 @@ var hot = $.extend({}, hot, {
             }
         };
     },
+    _getTransferPage: function (callback) {
+        alert($('.gopage').val());
+    },
     ajax: function (url, data, success, error, type, loadingDelay, options) {
-        if (loadingDelay == "undefined") {
+        if (typeof loadingDelay == "undefined") {
             loadingDelay = 0;
         }
-        if (loadingDelay > 0) {
-            layer.load();
-        }
+        layer.load();
         setTimeout(function () {
             var op = {
                 type: type,
@@ -272,8 +277,22 @@ var hot = $.extend({}, hot, {
         }, loadingDelay);
     },
     utils: {
-        formatString: function () { if (arguments.length == 0) return ''; if (arguments.length == 1) return arguments[0]; var args = hot.utils.cloneArray(arguments); args.splice(0, 1); return arguments[0].replace(/{(\d+)?}/g, function ($0, $1) { return args[parseInt($1)]; }); },
-        cloneArray: function (arr) { var cloned = []; for (var i = 0, j = arr.length; i < j; i++) { cloned[i] = arr[i]; } return cloned; }
+        formatString: function () {
+            if (arguments.length == 0) return '';
+            if (arguments.length == 1) return arguments[0];
+            var args = hot.utils.cloneArray(arguments);
+            args.splice(0, 1);
+            return arguments[0].replace(/{(\d+)?}/g, function ($0, $1) {
+                return args[parseInt($1)];
+            });
+        },
+        cloneArray: function (arr) {
+            var cloned = [];
+            for (var i = 0, j = arr.length; i < j; i++) {
+                cloned[i] = arr[i];
+            }
+            return cloned;
+        }
     },
     //图片上传
     uploadImg: function (btnFile, uploadPath, callback, data) {
@@ -301,4 +320,9 @@ var hot = $.extend({}, hot, {
 
 function goTo(pageNo, callback) {
     callback(pageNo);
+}
+function goToByEnter(callback) {
+    var page = $('.gopage').val();
+    if (isNaN(page) || parseInt(page) <= 0) return;
+    goTo(page, callback);
 }
